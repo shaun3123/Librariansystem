@@ -1,0 +1,7 @@
+to compile:
+
+javac LibSys.java
+
+to run: 
+
+java LibSys
