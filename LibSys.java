@@ -20,7 +20,7 @@ private class Member {
 		checkedOut = new ArrayList<Book>();
 	}
 
-
+ 
 }
 public class Book{
 	String author;
