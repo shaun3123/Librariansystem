@@ -19,7 +19,7 @@ private class Member {
 		ID = id;
 		checkedOut = new ArrayList<Book>();
 	}
-
+ 
 
 }
 public class Book{
