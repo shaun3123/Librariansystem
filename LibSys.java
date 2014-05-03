@@ -72,7 +72,9 @@ public class Book{
          			break;
         		case 5: sys.viewMember(); // view member
          		        break;
-        		case 0:
+        		case 6: sys.printAllBooks();
+				break;
+			case 0:
             			System.exit(0);
             			break;
         		default:
@@ -91,6 +93,7 @@ public class Book{
               	+ "Press 3 to checkout book\n"
               	+ "Press 4 to return book\n"
               	+ "Press 5 to view member information\n"
+		+ "Press 6 to view all books\n"
               	+ "Press 0 to quit\n"); //prompt
   	}//end prompt
 
@@ -147,7 +150,7 @@ public class Book{
 		members.add(newmemb);
 
 		System.out.println("New Member added.");	
-
+		System.out.println("Member id: "+members.size());
 	}
 	public void addPublication(){
 
@@ -202,6 +205,7 @@ public class Book{
                 books.add(newbook);
 
                 System.out.println("New Book added.");
+		System.out.println("Book id: "+books.size());
 
 
 
@@ -215,20 +219,36 @@ public class Book{
 
 		System.out.println("Please enter member ID: ");
 		mnum = input.nextInt();
-
+		
+		if((mnum < 0) || (mnum > members.size())){
+                        System.out.println("Invalid member ID.");
+			return;
+                }
 
 
 		input.nextLine();
 		System.out.println("Do you know the book ID number? (y / n)");
 		in = input.nextLine();
+
 		if( in.equals("y")){
 			System.out.println("Please enter book ID number: ");
 			num = input.nextInt();
+			
+			if((num < 0) || (num > books.size())){
+                	        System.out.println("Invalid book ID.");
+                        	return;
+                	}	
+
 			for( Book book : books ){
-				if( book.ID == num){
+
+				if( book.ID == num-1){
 					if(book.available.equals(true)){
-						members.get(mnum).checkedOut.add(book);	
+						members.get(mnum-1).checkedOut.add(book);	
 						book.available = false;
+						System.out.println("Book successfully checked out.");
+					}
+					else{
+						System.out.println("Sorry. Book already checked out!");
 					}
 				}
  			}
@@ -243,22 +263,27 @@ public class Book{
                 System.out.println("Please enter member ID: ");
                 mnum = input.nextInt();
 
+		if((mnum < 0) || (mnum > members.size())){
+                        System.out.println("Invalid member ID.");
+                        return;
+                }
+
 		 input.nextLine();
                 System.out.println("Please enter the book ID number: ");
                 num = input.nextInt();
-                	for( Book book : books ){
+                
+		if((num < 0) || (num > books.size())){
+                        System.out.println("Invalid book ID.");
+                        return;
+                }
+
+
+		for( Book book : books ){
                         	if( book.ID == num){
-                                	members.get(mnum).checkedOut.remove(book);
+                                	members.get(mnum-1).checkedOut.remove(book);
                                        	book.available = true;
                                         }
                                 }
-                        
-                
-		
-
-
-
-
 	}
 	public void viewMember(){
 		int mnum;
@@ -266,19 +291,32 @@ public class Book{
 		mnum = input.nextInt();
 
 
+		if((mnum < 0) || (mnum > members.size())){
+                        System.out.println("Invalid member ID.");
+                        return;
+                }
+
 		System.out.println("\nMEMBER INFORMATION");
-		System.out.println("Name: "+members.get(mnum).fname+" "
-			+members.get(mnum).lname);
+		System.out.println("Name: "+members.get(mnum-1).fname+" "
+			+members.get(mnum-1).lname);
 
 		System.out.println("ID: "+mnum);
 		System.out.println("\nCHECKED OUT BOOKS");
-		for(Book book : members.get(mnum).checkedOut){
+		System.out.println(members.get(mnum-1).checkedOut.size()+" books checked out");
+		for(Book book : members.get(mnum-1).checkedOut){
 			System.out.println(book.title+" "+book.author);
 		}
 
 
 	}
-	
+	public void printAllBooks(){
+		
+		System.out.println("\nALL BOOKS IN LIBRARY");
+		System.out.println("number of books: "+books.size());
+		for( Book book : books) {
+			System.out.println(book.title+" by "+book.author+"\tavailable: "+book.available);
+		}
+	}
 
 
 }//end class
